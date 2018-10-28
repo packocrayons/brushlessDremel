@@ -33,8 +33,9 @@ void checkAndRunCooler(){
     Serial.print("Cooler: ");
     Serial.println(coolerSpeed);
   } else {
-    digitalWrite(coolerPin, 0);
-    Serial.println("stalled");
+    coolerSpeed = 0;
+    digitalWrite(coolerPin, coolerSpeed);
+    Serial.println(coolerSpeed);
   }
 }
 
