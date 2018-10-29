@@ -30,13 +30,14 @@ void checkAndRunCooler(){
   if (accumulator > 0){
     coolerSpeed = (accumulator/60 < 255 ? accumulator/60 : 255); //can a compiler handle this? are there enough registers in the 168 to handle this? Who knows
     analogWrite(coolerPinH, coolerSpeed);
-    digitalWrite(coolerPinL, coolerSpeed);
+    digitalWrite(coolerPinL, HIGH);
     accumulator--;
     Serial.print("Cooler: ");
     Serial.println(coolerSpeed);
   } else {
     coolerSpeed = 0;
     analogWrite(coolerPinH, coolerSpeed);
+    digitalWrite(coolerPinL, LOW)
     Serial.println(coolerSpeed);
   }
 }
