@@ -6,7 +6,8 @@
 int escPin=9;
 int switchPin=8;
 int potPin=2;
-int coolerPin=10;
+int coolerPinH=5;
+int coolerPinL=6; //the low side mosfet - we'll probably just turn this on completely.
 bool motorRunning = false;
 
 int val; //temporary to hold pre-mapped motor speed. Originally this was just mapped through but since we have an interrupt using the same variable we can't in all good knowledge use it.
@@ -27,14 +28,15 @@ Servo esc;
 //
 void checkAndRunCooler(){
   if (accumulator > 0){
-    coolerSpeed = (accumulator/60 > 255 ? accumulator/60 : 255); //can a compiler handle this? are there enough registers in the 168 to handle this? Who knows
-    analogWrite(coolerPin, coolerSpeed);
+    coolerSpeed = (accumulator/60 < 255 ? accumulator/60 : 255); //can a compiler handle this? are there enough registers in the 168 to handle this? Who knows
+    analogWrite(coolerPinH, coolerSpeed);
+    digitalWrite(coolerPinL, coolerSpeed);
     accumulator--;
     Serial.print("Cooler: ");
     Serial.println(coolerSpeed);
   } else {
     coolerSpeed = 0;
-    digitalWrite(coolerPin, coolerSpeed);
+    analogWrite(coolerPinH, coolerSpeed);
     Serial.println(coolerSpeed);
   }
 }
